@@ -13,4 +13,8 @@ import shutil
 out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
 os.makedirs(out_dir, exist_ok=True)
 src = os.path.join(os.path.dirname(os.path.abspath(__file__)), "entry.png")
-shutil.copyfile(src, os.path.join(out_dir, "entry.png"))
+dst = os.path.join(out_dir, "entry.png")
+shutil.copyfile(src, dst)
+# The entry must be byte-identical on every run: confirm the copy landed whole.
+assert os.path.getsize(dst) == os.path.getsize(src), "entry.png copy is incomplete"
+print("wrote", dst, os.path.getsize(dst), "bytes")
